@@ -178,3 +178,13 @@ During this project, I ran into and resolved several issues:
 
 ## Future Improvements
 
+Future improvements for this project include:
+
+- Add a dedicated `/health` endpoint to the application for cleaner ALB health checks.
+- Add a NAT Gateway so ECS tasks can run fully inside private subnets while still pulling images from ECR.
+- Add Trivy scanning to check Docker images for vulnerabilities.
+- Add TFLint to improve Terraform code quality.
+- Improve IAM permissions by replacing broad permissions with least-privilege policies.
+- Add CloudWatch log groups for better ECS task logging and debugging.
+- Add separate environments such as development, staging, and production.
+- Add automated post-deployment health checks in GitHub Actions.
