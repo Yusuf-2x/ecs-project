@@ -20,9 +20,17 @@ https://tm.yusufdevops.online
 - **Route53 DNS**: The custom domain `tm.yusufdevops.online` points to the ALB.
 - **Terraform modules**: Infrastructure is split into modules for VPC, security groups, ECR, ALB, ECS, ACM, and Route53.
 - **Remote Terraform state**: Terraform state is stored remotely in S3.
-- **GitHub Actions CI/CD**: Pipelines are used for application image deployment, Terraform deployment, and Terraform destroy.
+- **GitHub Actions CI/CD**: Pipelines are used for application image deployment, Terraform deployment, and Terraform destroy. 
 
 ## Local Setup
+
+To run the application locally, clone the repository and install the Node.js dependencies.
+
+```bash
+git clone https://github.com/Yusuf-2x/ecs-project.git
+cd ecs-project/app
+npm install --legacy-peer-deps
+npm start
 
 ## Docker Setup
 
