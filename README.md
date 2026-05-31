@@ -140,6 +140,24 @@ Workflow file:
 
 ## Screenshots
 
+The following screenshots should be added before final submission:
+
+- Application running locally
+- Docker image built successfully
+- Docker container running locally
+- Amazon ECR repository showing pushed image
+- ECS cluster and service
+- ECS task running
+- Application Load Balancer
+- Target group health check
+- ACM certificate issued
+- Route53 DNS record for `tm.yusufdevops.online`
+- GitHub Actions App Deploy pipeline
+- GitHub Actions Terraform Deploy pipeline
+- GitHub Actions Terraform Destroy pipeline
+- Live application running at `https://tm.yusufdevops.online`
+
 ## Troubleshooting
 
 ## Future Improvements
+
