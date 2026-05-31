@@ -159,5 +159,22 @@ The following screenshots should be added before final submission:
 
 ## Troubleshooting
 
+During this project, I ran into and resolved several issues:
+
+- **Dockerfile missing in GitHub Actions**  
+  The App Deploy pipeline initially failed because the repository did not have a Dockerfile in the root directory. I fixed this by creating a project Dockerfile and `.dockerignore`.
+
+- **ECS image pull failure**  
+  ECS failed with `CannotPullContainerError` because the `latest` image tag was not available in ECR. This was fixed by updating the App Deploy pipeline to tag and push both the commit SHA and `latest`.
+
+- **GitHub Actions OIDC issue**  
+  GitHub Actions initially could not assume the AWS IAM role. I fixed this by updating the IAM trust policy so the role could be assumed by the `Yusuf-2x/ecs-project` repository.
+
+- **Target group health checks**  
+  The ALB target group showed unhealthy targets while debugging the ECS service. This required checking the ECS task status, target group health reason, security groups, container port, and health check path.
+
+- **Terraform resource conflicts**  
+  Some resources already existed from the manual ClickOps stage. I deleted the manually created resources before allowing Terraform to recreate and manage them properly.
+
 ## Future Improvements
 
