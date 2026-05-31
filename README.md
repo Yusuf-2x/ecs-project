@@ -65,6 +65,45 @@ Terraform state is stored remotely in an S3 backend, which allows the infrastruc
 
 ## Terraform Module Breakdown
 
+The Terraform code is split into separate modules to keep the infrastructure organised, reusable, and easier to maintain.
+
+### VPC Module
+
+The VPC module creates the custom network for the project. It provisions the VPC, public subnets, private subnets, internet gateway, route table, and route table associations.
+
+The public subnets are used for internet-facing resources such as the Application Load Balancer. The private subnets are intended for backend resources such as ECS tasks.
+
+### Security Module
+
+The security module creates the security groups used by the ALB and ECS service.
+
+The ALB security group allows inbound HTTP and HTTPS traffic from the internet. The ECS security group only allows inbound traffic from the ALB security group on port `3000`.
+
+### ECR Module
+
+The ECR module creates the Amazon Elastic Container Registry repository named `threatmod`.
+
+This repository stores the Docker image built by the GitHub Actions application pipeline.
+
+### ALB Module
+
+The ALB module creates the Application Load Balancer, target group, and listeners.
+
+The ALB receives public traffic and forwards it to the ECS service through the target group. The HTTPS listener uses the ACM certificate for secure traffic.
+
+### ECS Module
+
+The ECS module creates the ECS Fargate cluster, task definition, ECS service, and IAM execution role.
+
+The ECS service runs the Docker container using the image stored in ECR and connects it to the ALB target group.
+
+### ACM Module
+
+The ACM module creates an AWS Certificate Manager certificate for:
+
+```text
+tm.yusufdevops.online
+
 ### VPC Module
 
 ### Security Module
@@ -81,6 +120,16 @@ Terraform state is stored remotely in an S3 backend, which allows the infrastruc
 
 ## CI/CD Pipelines
 
+This project uses GitHub Actions to automate application delivery and infrastructure management.
+
+### App Deploy Pipeline
+
+The App Deploy pipeline builds the Docker image and pushes it to Amazon ECR.
+
+Workflow file:
+
+```text
+.github/workflows/app-deploy.yml
 ### App Deploy Pipeline
 
 ### Terraform Deploy Pipeline
