@@ -1,13 +1,3 @@
-resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-
-  tags = {
-    Name = "ecs-vpc"
-  }
-}
-
 module "vpc" {
   source = "./modules/vpc"
 }
@@ -26,7 +16,7 @@ module "alb" {
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
   alb_sg_id         = module.security.alb_sg_id
-  certificate_arn = module.acm.certificate_arn
+  certificate_arn   = module.acm.certificate_arn
 }
 
 module "ecs" {
@@ -38,9 +28,9 @@ module "ecs" {
 }
 
 data "aws_route53_zone" "main" {
-  
-   name = "yusufdevops.online"
-    }
+
+  name = "yusufdevops.online"
+}
 
 
 module "acm" {
