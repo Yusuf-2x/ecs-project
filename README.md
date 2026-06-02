@@ -131,6 +131,22 @@ Workflow file: `.github/workflows/terraform-destroy.yml`
 
 ## Architecture Diagram
 
+```mermaid
+flowchart TD
+  User[User Browser] --> R53[Route53 DNS]
+  R53 --> ALB[Application Load Balancer]
+  ALB --> ECS[ECS Fargate Service]
+  ECS --> Task[ECS Task]
+  Task --> App[ThreatMod Container]
+  ECR[Amazon ECR] --> Task
+  ECS --> CW[CloudWatch Logs]
+
+  Dev[Developer] --> GitHub[GitHub Repository]
+  GitHub --> Actions[GitHub Actions]
+  Actions --> ECR
+  Actions --> Terraform[Terraform]
+  Terraform --> AWS[AWS Infrastructure]
+```
 ## Screenshots
 
 The following screenshots should be added before final submission:
