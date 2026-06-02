@@ -2,6 +2,8 @@ resource "aws_ecs_cluster" "main" {
   name = "threatmod-cluster"
 }
 
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "ecs_execution" {
   name = "ecsTaskExecutionRoleTerraform"
 
@@ -20,6 +22,34 @@ resource "aws_iam_role" "ecs_execution" {
 resource "aws_iam_role_policy_attachment" "ecs_execution" {
   role       = aws_iam_role.ecs_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "ecs_logs" {
+  name = "ecsTaskExecutionRoleLogsPolicy"
+  role = aws_iam_role.ecs_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = "arn:aws:logs:*:*:log-group:/ecs/threatmod-task:*"
+      }
+    ]
+  })
+}
+
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/threatmod-task"
+  retention_in_days = 7
+
+  tags = {
+    Name = "threatmod-ecs-logs"
+  }
 }
 
 resource "aws_ecs_task_definition" "app" {
@@ -41,6 +71,15 @@ resource "aws_ecs_task_definition" "app" {
           protocol      = "tcp"
         }
       ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.ecs_logs.name
+          "awslogs-region"        = data.aws_region.current.name
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
     }
   ])
 }

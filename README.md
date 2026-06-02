@@ -31,6 +31,7 @@ git clone https://github.com/Yusuf-2x/ecs-project.git
 cd ecs-project/app
 npm install --legacy-peer-deps
 npm start
+```
 
 ## Docker Setup
 
@@ -43,6 +44,7 @@ From the project root:
 
 ```bash
 docker build -t threatmod .
+```
 
 ## Terraform Infrastructure
 
@@ -99,24 +101,11 @@ The ECS service runs the Docker container using the image stored in ECR and conn
 
 ### ACM Module
 
-The ACM module creates an AWS Certificate Manager certificate for:
-
-```text
-tm.yusufdevops.online
-
-### VPC Module
-
-### Security Module
-
-### ECR Module
-
-### ALB Module
-
-### ECS Module
-
-### ACM Module
+The ACM module creates an AWS Certificate Manager certificate for `tm.yusufdevops.online`.
 
 ### Route53 Module
+
+The Route53 module creates a DNS A record that points the custom domain `tm.yusufdevops.online` to the Application Load Balancer, making the application accessible via HTTPS.
 
 ## CI/CD Pipelines
 
@@ -126,15 +115,19 @@ This project uses GitHub Actions to automate application delivery and infrastruc
 
 The App Deploy pipeline builds the Docker image and pushes it to Amazon ECR.
 
-Workflow file:
-
-```text
-.github/workflows/app-deploy.yml
-### App Deploy Pipeline
+Workflow file: `.github/workflows/app-deploy.yml`
 
 ### Terraform Deploy Pipeline
 
+The Terraform Deploy pipeline provisions the AWS infrastructure by running `terraform apply`.
+
+Workflow file: `.github/workflows/terraform-deploy.yml`
+
 ### Terraform Destroy Pipeline
+
+The Terraform Destroy pipeline tears down the AWS infrastructure by running `terraform destroy`.
+
+Workflow file: `.github/workflows/terraform-destroy.yml`
 
 ## Architecture Diagram
 

@@ -24,7 +24,7 @@ import useContentValidation from '../../../hooks/useContentValidation';
 
 export interface TextAreaProps extends FormFieldProps, TextareaComponetProps {
   ref?: React.ForwardedRef<any>;
-  validateData?: (newValue: string) => z.SafeParseReturnType<string | undefined, string | undefined>;
+  validateData?: (newValue: string) => ReturnType<z.ZodTypeAny['safeParse']>;
   singleLine?: boolean;
 }
 

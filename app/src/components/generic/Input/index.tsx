@@ -22,7 +22,7 @@ import useContentValidation from '../../../hooks/useContentValidation';
 
 export interface InputProps extends FormFieldProps, InputComponentProps {
   ref?: React.ForwardedRef<any>;
-  validateData?: (newValue: string) => z.SafeParseReturnType<string | undefined, string | undefined>;
+  validateData?: (newValue: string) => ReturnType<z.ZodTypeAny['safeParse']>;
 }
 
 const Input: FC<InputProps> = React.forwardRef<InputComponentProps.Ref, InputProps>(({

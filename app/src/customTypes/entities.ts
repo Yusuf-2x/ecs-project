@@ -35,24 +35,46 @@ export const MetadataCommentSchema = z.string().max(FREE_TEXT_INPUT_SMALL_MAX_LE
 export const MetadataSchema = z.object({
   key: z.string().max(SINGLE_FIELD_INPUT_SMALL_MAX_LENGTH),
   value: z.union([z.string(), z.array(z.string())]),
-}).strict().refine((data) => {
+}).strict().superRefine((data, ctx) => {
   if (data.key === 'Comments') {
-    return MetadataCommentSchema.safeParse(data.value).success;
+    if (!MetadataCommentSchema.safeParse(data.value).success) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Invalid key ${data.key} with value ${JSON.stringify(data.value)}`,
+        path: [data.key],
+      });
+    }
+    return;
   }
 
   if (data.key === 'STRIDE') {
-    return Array.isArray(data.value) && data.value.every(v => STRIDE.map(s => s.value).includes(v));
+    if (!Array.isArray(data.value) || !data.value.every(v => STRIDE.map(s => s.value).includes(v))) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Invalid key ${data.key} with value ${JSON.stringify(data.value)}`,
+        path: [data.key],
+      });
+    }
+    return;
   }
 
   if (data.key === 'Priority') {
-    return typeof data.value === 'string' && LEVEL_SELECTOR_OPTIONS.map(o => o.value).includes(data.value);
+    if (!(typeof data.value === 'string' && LEVEL_SELECTOR_OPTIONS.map(o => o.value).includes(data.value))) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Invalid key ${data.key} with value ${JSON.stringify(data.value)}`,
+        path: [data.key],
+      });
+    }
+    return;
   }
 
-  return false;
-}, (data) => ({
-  message: `Invalid key ${data.key} with value ${JSON.stringify(data.value)}`,
-  path: [data.key],
-}));
+  ctx.addIssue({
+    code: z.ZodIssueCode.custom,
+    message: `Invalid key ${data.key} with value ${JSON.stringify(data.value)}`,
+    path: [data.key],
+  });
+});
 
 export const EntityBaseSchema = z.object({
   /**

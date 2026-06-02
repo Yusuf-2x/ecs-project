@@ -38,8 +38,10 @@ module "ecs" {
 }
 
 data "aws_route53_zone" "main" {
-  name = "yusufdevops.online"
-}
+  
+   name = "yusufdevops.online"
+    }
+
 
 module "acm" {
   source      = "./modules/acm"

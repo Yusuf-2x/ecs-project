@@ -23,7 +23,7 @@ import sanitizeHtml from '../../utils/sanitizeHtml';
 const useContentValidation = (
   value: string,
   onChange?: NonCancelableEventHandler<BaseChangeDetail>,
-  validateData?: (newValue: string) => z.SafeParseReturnType<string | undefined, string | undefined>,
+  validateData?: (newValue: string) => ReturnType<z.ZodTypeAny['safeParse']>,
 ) => {
   const [tempValue, setTempValue] = useState(value);
   const [errorText, setErrorText] = useState('');
