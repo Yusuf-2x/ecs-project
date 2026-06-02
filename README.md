@@ -194,6 +194,6 @@ Future improvements for this project include:
 - Add Trivy scanning to check Docker images for vulnerabilities.
 - Add TFLint to improve Terraform code quality.
 - Improve IAM permissions by replacing broad permissions with least-privilege policies.
-- Add CloudWatch log groups for better ECS task logging and debugging.
+-- **CloudWatch logging**: ECS task logs are sent to CloudWatch for easier debugging.
 - Add separate environments such as development, staging, and production.
 - Add automated post-deployment health checks in GitHub Actions.
