@@ -36,19 +36,19 @@ jobs:
           docker build -t $ECR_REPOSITORY:latest .
 
       - name: Trivy Security Scan
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@v0.71.1
         with:
           scan-type: 'image'
-          image-ref: $ECR_REPOSITORY:latest
+          image-ref: ${{ env.ECR_REPOSITORY }}:latest
 
       - name: Tag Docker image
         run: |
           cd app
-          docker tag $ECR_REPOSITORY:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
-          docker tag $ECR_REPOSITORY:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:latest
+          docker tag $ECR_REPOSITORY:latest $ECR_REPOSITORY:${{ github.sha }}
+          docker tag $ECR_REPOSITORY:latest $ECR_REPOSITORY:latest
 
       - name: Push Docker image
         run: |
           cd app
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY:latest
+          docker push $ECR_REPOSITORY:${{ github.sha }}
+          docker push $ECR_REPOSITORY:latest
