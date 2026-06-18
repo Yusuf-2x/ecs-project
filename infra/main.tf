@@ -22,7 +22,7 @@ module "ecs" {
   private_subnet_ids = module.vpc.public_subnet_ids
   ecs_sg_id          = module.security.ecs_sg_id
   target_group_arn   = module.alb.target_group_arn
-  repository_url     = module.ecr.repository_url
+  repository_url     = "879655065112.dkr.ecr.eu-west-2.amazonaws.com/ecs-threatmod"
 }
 
 data "aws_route53_zone" "main" {
