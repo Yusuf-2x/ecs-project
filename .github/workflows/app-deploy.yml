@@ -36,7 +36,7 @@ jobs:
           docker build -t $ECR_REPOSITORY:latest .
 
       - name: Trivy Security Scan
-        uses: aquasecurity/trivy-action@v0.71.1
+        uses: aquasecurity/trivy-action@v0.70.0
         with:
           scan-type: 'image'
           image-ref: ${{ env.ECR_REPOSITORY }}:latest
