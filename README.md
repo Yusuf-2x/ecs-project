@@ -2,6 +2,10 @@
 
 ## Project Overview
 
+<div align="center">
+    <img src="./Images/result.png" width="300"/>
+</div>
+
 This project deploys a containerised ThreatMod application to AWS using Docker, Amazon ECR, ECS Fargate, an Application Load Balancer, Route53, ACM, Terraform, and GitHub Actions.
 
 The application is packaged into a Docker image and pushed to Amazon ECR under the `threatmod` repository. Terraform is used to provision the AWS infrastructure, including a custom VPC, public and private subnets, security groups, an Application Load Balancer, ECS Fargate service, ACM certificate, and Route53 DNS record.
